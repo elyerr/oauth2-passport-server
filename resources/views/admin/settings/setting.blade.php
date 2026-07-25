@@ -96,7 +96,7 @@
                 </div>
 
                 <form action="{{ route('admin.settings.update') }}" method="post" autocomplete="off"
-                    class="p-3 sm:p-4 md:p-6">
+                    enctype="multipart/form-data" class="p-3 sm:p-4 md:p-6">
                     <!-- These hidden inputs act as decoys to prevent the browser from autofilling real username and password fields. -->
                     <input id="name" type="text" class="hidden" />
                     <input id="password" type="password" class="hidden" />

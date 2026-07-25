@@ -110,8 +110,14 @@ class SettingService
                     continue;
                 }
 
+                if ($value == 'false') {
+                    $value = false;
+                } elseif ($value == 'true') {
+                    $value = true;
+                }
+
                 // Convert string numbers to string
-                if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
+                elseif (filter_var($value, FILTER_VALIDATE_INT) !== false) {
                     $value = intval($value);
                 }
                 // Convert to float from string number
@@ -341,7 +347,7 @@ class SettingService
         $data = $request->except('_method', '_token', 'current_route', 'use_module');
         $route = Route::getRoutes()->getByName($request->current_route)?->action;
         $moduleConfigKey = null;
-
+        dd($useModuele);
         if (isset($route['config_key']) && !empty($route['config_key']) && $useModuele) {
             $moduleConfigKey = $route['config_key'];
         }
