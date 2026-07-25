@@ -40,6 +40,8 @@ The format is based on [Keep a Changelog], and this project adheres to Semantic 
 - Updated module creation to use the latest stable Elymod version
 - Removed the `clean:tmp-files` command
 - Added support for module- and host-scoped configurations through the `is_module` option. Configurations are registered as module-scoped by default.
+- Support for aws s3 added
+- Fixed boolean value support in settings.
 
 ---
 
