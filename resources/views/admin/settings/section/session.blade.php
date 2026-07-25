@@ -110,9 +110,9 @@
                         </div>
                         <select name="session[expire_on_close]"
                             class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-colors duration-300">
-                            <option value="1" {{ config('session.expire_on_close') ? 'selected' : '' }}>
+                            <option value="true" {{ config('session.expire_on_close') ? 'selected' : '' }}>
                                 {{ __('Yes') }}</option>
-                            <option value="0" {{ !config('session.expire_on_close') ? 'selected' : '' }}>
+                            <option value="false" {{ !config('session.expire_on_close') ? 'selected' : '' }}>
                                 {{ __('No') }}</option>
                         </select>
                         <small class="block mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -135,9 +135,9 @@
                         </div>
                         <select name="session[encrypt]"
                             class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-colors duration-300">
-                            <option value="1" {{ config('session.encrypt') ? 'selected' : '' }}>{{ __('Yes') }}
+                            <option value="true" {{ config('session.encrypt') ? 'selected' : '' }}>{{ __('Yes') }}
                             </option>
-                            <option value="0" {{ !config('session.encrypt') ? 'selected' : '' }}>{{ __('No') }}
+                            <option value="false" {{ !config('session.encrypt') ? 'selected' : '' }}>{{ __('No') }}
                             </option>
                         </select>
                         <small class="block mt-2 text-sm text-gray-500 dark:text-gray-400">
@@ -215,9 +215,9 @@
                                     class="block text-sm font-medium text-gray-900 dark:text-white mb-2">{{ __('HTTPS Only') }}</label>
                                 <select name="session[secure]"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-colors duration-300">
-                                    <option value="1" {{ config('session.secure') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('session.secure') ? 'selected' : '' }}>
                                         {{ __('Yes') }}</option>
-                                    <option value="0" {{ !config('session.secure') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('session.secure') ? 'selected' : '' }}>
                                         {{ __('No') }}</option>
                                 </select>
                                 <small
@@ -228,9 +228,9 @@
                                     class="block text-sm font-medium text-gray-900 dark:text-white mb-2">{{ __('HTTP Only') }}</label>
                                 <select name="session[http_only]"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-colors duration-300">
-                                    <option value="1" {{ config('session.http_only') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('session.http_only') ? 'selected' : '' }}>
                                         {{ __('Yes') }}</option>
-                                    <option value="0" {{ !config('session.http_only') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('session.http_only') ? 'selected' : '' }}>
                                         {{ __('No') }}</option>
                                 </select>
                                 <small
@@ -241,9 +241,9 @@
                                     class="block text-sm font-medium text-gray-900 dark:text-white mb-2">{{ __('Partitioned Cookies') }}</label>
                                 <select name="session[partitioned]"
                                     class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-blue-600 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900/20 transition-colors duration-300">
-                                    <option value="1" {{ config('session.partitioned') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('session.partitioned') ? 'selected' : '' }}>
                                         {{ __('Yes') }}</option>
-                                    <option value="0" {{ !config('session.partitioned') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('session.partitioned') ? 'selected' : '' }}>
                                         {{ __('No') }}</option>
                                 </select>
                                 <small

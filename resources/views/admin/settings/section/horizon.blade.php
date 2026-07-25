@@ -46,10 +46,10 @@
                     <select name="horizon[fast_termination]"
                         class="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600
                     bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm">
-                        <option value="0" {{ config('horizon.fast_termination') ? '' : 'selected' }}>
+                        <option value="false" {{ config('horizon.fast_termination') ? '' : 'selected' }}>
                             {{ __('Disabled') }}
                         </option>
-                        <option value="1" {{ config('horizon.fast_termination') ? 'selected' : '' }}>
+                        <option value="true" {{ config('horizon.fast_termination') ? 'selected' : '' }}>
                             {{ __('Enabled') }}
                         </option>
                     </select>

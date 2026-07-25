@@ -69,9 +69,9 @@
                             <div class="ml-4">
                                 <select name="system[csp_enabled]"
                                     class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                    <option value="1" {{ config('system.csp_enabled') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('system.csp_enabled') ? 'selected' : '' }}>
                                         {{ __('Enabled') }}</option>
-                                    <option value="0" {{ !config('system.csp_enabled') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('system.csp_enabled') ? 'selected' : '' }}>
                                         {{ __('Disabled') }}</option>
                                 </select>
                             </div>
@@ -112,10 +112,10 @@
                             <div class="ml-4">
                                 <select name="system[disable_create_user_by_command]"
                                     class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                    <option value="0"
+                                    <option value="false"
                                         {{ config('system.disable_create_user_by_command', false) == false ? 'selected' : '' }}>
                                         {{ __('Enabled') }}</option>
-                                    <option value="1"
+                                    <option value="true"
                                         {{ config('system.disable_create_user_by_command', false) == true ? 'selected' : '' }}>
                                         {{ __('Disabled') }}</option>
                                 </select>
@@ -153,9 +153,9 @@
                             <div class="ml-4">
                                 <select name="system[birthday][active]"
                                     class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                    <option value="1" {{ config('system.birthday.active') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('system.birthday.active') ? 'selected' : '' }}>
                                         {{ __('Enabled') }}</option>
-                                    <option value="0" {{ !config('system.birthday.active') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('system.birthday.active') ? 'selected' : '' }}>
                                         {{ __('Disabled') }}</option>
                                 </select>
                             </div>
@@ -176,10 +176,10 @@
                             <div class="ml-4">
                                 <select name="system[registration][email][verification]"
                                     class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                    <option value="1"
+                                    <option value="true"
                                         {{ config('system.registration.email.verification') ? 'selected' : '' }}>
                                         {{ __('Enabled') }}</option>
-                                    <option value="0"
+                                    <option value="false"
                                         {{ !config('system.registration.email.verification') ? 'selected' : '' }}>
                                         {{ __('Disabled') }}</option>
                                 </select>
@@ -243,11 +243,11 @@
                         <div class="flex flex-col gap-2 w-full md:w-64">
                             <select name="system[demo][domain][enabled]"
                                 class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                <option value="1"
+                                <option value="true"
                                     {{ config('system.demo.domain.enabled', false) ? 'selected' : '' }}>
                                     {{ __('Enabled') }}
                                 </option>
-                                <option value="0"
+                                <option value="false"
                                     {{ !config('system.demo.domain.enabled', false) ? 'selected' : '' }}>
                                     {{ __('Disabled') }}
                                 </option>
@@ -286,10 +286,10 @@
                                 <div class="ml-4">
                                     <select name="system[demo][enabled]"
                                         class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                        <option value="1" {{ config('system.demo.enabled') ? 'selected' : '' }}>
+                                        <option value="true" {{ config('system.demo.enabled') ? 'selected' : '' }}>
                                             {{ __('Enabled') }}
                                         </option>
-                                        <option value="0" {{ !config('system.demo.enabled') ? 'selected' : '' }}>
+                                        <option value="false" {{ !config('system.demo.enabled') ? 'selected' : '' }}>
                                             {{ __('Disabled') }}
                                         </option>
                                     </select>
@@ -349,9 +349,9 @@
                             <div class="ml-4">
                                 <select name="services[captcha][enabled]"
                                     class="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-600 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-colors duration-300">
-                                    <option value="1" {{ config('services.captcha.enabled') ? 'selected' : '' }}>
+                                    <option value="true" {{ config('services.captcha.enabled') ? 'selected' : '' }}>
                                         {{ __('Enabled') }}</option>
-                                    <option value="0" {{ !config('services.captcha.enabled') ? 'selected' : '' }}>
+                                    <option value="false" {{ !config('services.captcha.enabled') ? 'selected' : '' }}>
                                         {{ __('Disabled') }}</option>
                                 </select>
                             </div>

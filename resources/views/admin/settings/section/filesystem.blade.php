@@ -104,11 +104,11 @@
                                 @if ($key == 'throw')
                                     <select name="filesystems[disks][local][{{ $key }}]"
                                         class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-colors duration-300">
-                                        <option value="0"
+                                        <option value="false"
                                             {{ !config('filesystems.disks.local.throw', false) ? 'selected' : '' }}>
                                             {{ __('No') }}
                                         </option>
-                                        <option value="1"
+                                        <option value="true"
                                             {{ config('filesystems.disks.local.throw', false) ? 'selected' : '' }}>
                                             {{ __('Yes') }}
                                         </option>
@@ -164,11 +164,11 @@
                                 @if ($key == 'throw')
                                     <select name="filesystems[disks][public][{{ $key }}]"
                                         class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-colors duration-300">
-                                        <option value="0"
+                                        <option value="false"
                                             {{ !config('filesystems.disks.public.throw', false) ? 'selected' : '' }}>
                                             {{ __('No') }}
                                         </option>
-                                        <option value="1"
+                                        <option value="true"
                                             {{ config('filesystems.disks.public.throw', false) ? 'selected' : '' }}>
                                             {{ __('Yes') }}
                                         </option>
@@ -237,11 +237,11 @@
                                 @if (in_array($key, ['throw', 'use_path_style_endpoint']))
                                     <select name="filesystems[disks][s3][{{ $key }}]"
                                         class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-indigo-500 dark:focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-colors duration-300">
-                                        <option value="0"
+                                        <option value="false"
                                             {{ !config('filesystems.disks.s3.' . $key, false) ? 'selected' : '' }}>
                                             {{ __('No') }}
                                         </option>
-                                        <option value="1"
+                                        <option value="true"
                                             {{ config('filesystems.disks.s3.' . $key, false) ? 'selected' : '' }}>
                                             {{ __('Yes') }}
                                         </option>

@@ -70,10 +70,10 @@
                         </label>
                         <select name="scout[queue]"
                             class="w-full px-4 py-3 text-gray-800 dark:text-gray-200 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-700">
-                            <option value="1" {{ config('scout.queue') ? 'selected' : '' }}>
+                            <option value="true" {{ config('scout.queue') ? 'selected' : '' }}>
                                 {{ __('Yes') }}
                             </option>
-                            <option value="0" {{ !config('scout.queue') ? 'selected' : '' }}>
+                            <option value="false" {{ !config('scout.queue') ? 'selected' : '' }}>
                                 {{ __('No') }}
                             </option>
                         </select>
@@ -86,10 +86,10 @@
                         </label>
                         <select name="scout[after_commit]"
                             class="w-full px-4 py-3 text-gray-800 dark:text-gray-200 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-700">
-                            <option value="1" {{ config('scout.after_commit') ? 'selected' : '' }}>
+                            <option value="true" {{ config('scout.after_commit') ? 'selected' : '' }}>
                                 {{ __('Yes') }}
                             </option>
-                            <option value="0" {{ !config('scout.after_commit') ? 'selected' : '' }}>
+                            <option value="false" {{ !config('scout.after_commit') ? 'selected' : '' }}>
                                 {{ __('No') }}
                             </option>
                         </select>
@@ -158,10 +158,10 @@
                         </label>
                         <select name="scout[soft_delete]"
                             class="w-full px-4 py-3 rounded-lg text-gray-800 dark:text-gray-200 border border-gray-300 dark:bg-gray-700 dark:border-gray-700">
-                            <option value="1" {{ config('scout.soft_delete') ? 'selected' : '' }}>
+                            <option value="true" {{ config('scout.soft_delete') ? 'selected' : '' }}>
                                 {{ __('Yes') }}
                             </option>
-                            <option value="0" {{ !config('scout.soft_delete') ? 'selected' : '' }}>
+                            <option value="false" {{ !config('scout.soft_delete') ? 'selected' : '' }}>
                                 {{ __('No') }}
                             </option>
                         </select>

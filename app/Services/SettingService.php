@@ -110,9 +110,9 @@ class SettingService
                     continue;
                 }
 
-                if ($value == 'false') {
+                if ($value == 'false' || $value === false) {
                     $value = false;
-                } elseif ($value == 'true') {
+                } elseif ($value == 'true' || $value === true) {
                     $value = true;
                 }
 
@@ -347,7 +347,7 @@ class SettingService
         $data = $request->except('_method', '_token', 'current_route', 'use_module');
         $route = Route::getRoutes()->getByName($request->current_route)?->action;
         $moduleConfigKey = null;
-        dd($useModuele);
+
         if (isset($route['config_key']) && !empty($route['config_key']) && $useModuele) {
             $moduleConfigKey = $route['config_key'];
         }

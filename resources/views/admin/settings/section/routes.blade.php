@@ -86,12 +86,12 @@
                                            bg-white dark:bg-gray-600 text-gray-800 dark:text-white
                                            focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
 
-                                                <option value="1"
+                                                <option value="true"
                                                     {{ config("routes.{$root}.{$group}.{$feature}.status", true) == true ? 'selected' : '' }}>
                                                     {{ __('Enabled') }}
                                                 </option>
 
-                                                <option value="0"
+                                                <option value="false"
                                                     {{ config("routes.{$root}.{$group}.{$feature}.status", true) == false ? 'selected' : '' }}>
                                                     {{ __('Disabled') }}
                                                 </option>
