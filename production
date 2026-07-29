@@ -26,7 +26,7 @@ deploy() {
     # SPDX-License-Identifier: AGPL-3.0-or-later
     # -----------------------------------------------------------------------------
     
-    IMAGE="elyerr/oauth2-passport-server:v9.0.1"
+    IMAGE="elyerr/oauth2-passport-server:v9.0.2"
     COMPOSE_FILE="docker-prod.yml"
     ENV_FILE=".env"
     
