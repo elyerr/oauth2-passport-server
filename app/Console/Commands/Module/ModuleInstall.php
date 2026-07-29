@@ -486,6 +486,7 @@ class ModuleInstall extends Command
         $command = [
             'elyscope',
             'install',
+            '--lock',
             '--no-interaction',
             '--prefer-dist'
         ];
