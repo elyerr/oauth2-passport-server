@@ -35,7 +35,6 @@ services:
             - env:/var/www/env
             - app-secrets:/var/www/secrets
             - files:/var/www/storage/app
-        #    - sitemaps:/var/www/public/sitemaps # Only for content modoule
             - logs:/var/www/storage/logs
             - third-party:/var/www/third-party
             - third-party-public:/var/www/public/third-party
@@ -48,8 +47,7 @@ services:
 volumes:
     pg-data:
     app-secrets:
-    files:
-    sitemaps:
+    files: 
     logs:
     third-party:
     third-party-public:
