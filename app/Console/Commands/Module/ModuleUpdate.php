@@ -500,6 +500,7 @@ class ModuleUpdate extends Command
         $command = [
             'elyscope',
             'update',
+            '--lock',
             '--no-interaction',
             '--prefer-dist',
             '--no-progress'
