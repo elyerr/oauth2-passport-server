@@ -254,7 +254,7 @@ class ModuleUpdate extends Command
         }
 
         // Step 5: Run migrations
-        if (!$this->runMigrations()) {
+        if (!$this->runMigrations($modulePath)) {
             $this->error('Update failed: Migrations failed');
             return self::FAILURE;
         }
@@ -532,17 +532,34 @@ class ModuleUpdate extends Command
     /**
      * Run database migrations
      */
-    protected function runMigrations(): bool
+    protected function runMigrations(string $modulePath): bool
     {
         $this->info('Running migrations...');
+        $migrationPath = realpath(rtrim($modulePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'database/migrations');
+
+        if (!$migrationPath) {
+            $this->error('Migration path not found.');
+            return false;
+        }
+
+        $this->line("Migration path: {$migrationPath}");
 
         try {
-            Artisan::call('migrate', [
+            $exitCode = Artisan::call('migrate', [
+                '--path' => $migrationPath,
+                '--realpath' => true,
                 '--force' => true
             ]);
 
             $output = Artisan::output();
-            $this->line($output);
+            if ($output !== '') {
+                $this->line($output);
+            }
+
+            if ($exitCode !== 0) {
+                $this->error("Migration command failed with exit code {$exitCode}.");
+                return false;
+            }
 
             return true;
         } catch (\Throwable $e) {

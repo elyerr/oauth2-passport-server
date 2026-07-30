@@ -3,10 +3,8 @@
 namespace App\Console\Commands\Module;
 
 use Illuminate\Console\Command;
-use App\Repositories\SettingRepository;
 use App\Services\ModuleService;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\Process\Process;
@@ -57,7 +55,6 @@ class ModuleInstall extends Command
 
     public function handle(): int
     {
-        $settingRepository = app(SettingRepository::class);
         // attributes
         $provider = $this->option('provider');
         $source = $this->option('source');
@@ -283,57 +280,57 @@ class ModuleInstall extends Command
             File::makeDirectory($thirdPartyPath, 0755, true);
         }
 
-        return DB::transaction(function () use ($data, $modulePath, $environment, $name, $settingRepository) {
 
-            // Clone repository
-            if (!$this->cloneRepository($data)) {
-                return self::FAILURE;
-            }
+        // Clone repository
+        if (!$this->cloneRepository($data)) {
+            return self::FAILURE;
+        }
 
-            // Register module
-            app(ModuleService::class)->create($data);
+        // Register module
+        app(ModuleService::class)->create($data);
 
-            $settingRepository->add("module.third-party.{$name}.module_enabled", 1);
+        // Install dependencies
+        if (
+            !$this->runComposerInstall(
+                $modulePath,
+                $environment
+            )
+        ) {
+            File::deleteDirectory($modulePath);
+            $module = app(ModuleService::class)->findByName($data['name']);
+            app(ModuleService::class)->delete($module->getId());
 
-            // Install dependencies
-            if (
-                !$this->runComposerInstall(
-                    $modulePath,
-                    $environment
-                )
-            ) {
-                File::deleteDirectory($modulePath);
+            return self::FAILURE;
+        }
 
-                return self::FAILURE;
-            }
+        if (!$this->ensureModulePublicSymlink($modulePath)) {
 
-            if (!$this->ensureModulePublicSymlink($modulePath)) {
+            File::deleteDirectory($modulePath);
 
-                File::deleteDirectory($modulePath);
+            return self::FAILURE;
+        }
 
-                return self::FAILURE;
-            }
+        // Run migrations
+        if (!$this->runMigrations($modulePath)) {
 
-            // Run migrations
-            if (!$this->runMigrations()) {
+            File::deleteDirectory($modulePath);
+            $module = app(ModuleService::class)->findByName($data['name']);
+            app(ModuleService::class)->delete($module->getId());
 
-                File::deleteDirectory($modulePath);
+            return self::FAILURE;
+        }
 
-                return self::FAILURE;
-            }
+        $this->info('Loading module services...');
 
-            $this->info('Loading module services...');
+        if (!$this->loadServiceByModule($name)) {
+            return self::FAILURE;
+        }
 
-            if (!$this->loadServiceByModule($name)) {
-                return self::FAILURE;
-            }
+        $this->info(
+            "Module '{$name}' installed successfully."
+        );
 
-            $this->info(
-                "Module '{$name}' installed successfully."
-            );
-
-            return self::SUCCESS;
-        });
+        return self::SUCCESS;
     }
 
     protected function extractModuleName(
@@ -377,25 +374,38 @@ class ModuleInstall extends Command
         return null;
     }
 
-    protected function runMigrations(): bool
+    protected function runMigrations(string $path): bool
     {
         $this->info('Running migrations...');
+        $migrationPath = realpath(rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'database/migrations');
 
+        if (!$migrationPath) {
+            $this->error('Migration path not found.');
+            return false;
+        }
+
+        $this->line("Migration path: {$migrationPath}");
+                       
         try {
-
-            Artisan::call('migrate', [
+            $exitCode = Artisan::call('migrate', [
+                '--path' => $migrationPath,
+                '--realpath' => true,
                 '--force' => true
             ]);
 
-            $this->line(Artisan::output());
+            $output = Artisan::output();
+            if ($output !== '') {
+                $this->line($output);
+            }
+
+            if ($exitCode !== 0) {
+                $this->error("Migration command failed with exit code {$exitCode}.");
+                return false;
+            }
 
             return true;
         } catch (\Throwable $e) {
-
-            $this->error(
-                'Migration failed: ' . $e->getMessage()
-            );
-
+            $this->error('Migration failed: ' . $e->getMessage());
             return false;
         }
     }
@@ -486,7 +496,6 @@ class ModuleInstall extends Command
         $command = [
             'elyscope',
             'install',
-            '--lock',
             '--no-interaction',
             '--prefer-dist'
         ];
