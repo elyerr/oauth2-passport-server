@@ -78,7 +78,7 @@ class UserRepository
     /**
      * Create resource
      * @param array $data
-     * @return TModel|User|\Illuminate\Database\Eloquent\Model
+     * @return User
      */
     public function create(array $data)
     {
@@ -88,7 +88,7 @@ class UserRepository
     /**
      * Search user by id
      * @param string $id
-     * @return TModel|TValue|null
+     * @return User
      */
     public function find(string $id)
     {
@@ -98,7 +98,7 @@ class UserRepository
     /**
      * Find user by email
      * @param string $email
-     * @return TModel|TValue|null
+     * @return User
      */
     public function findByEmail(string $email)
     {
@@ -109,11 +109,15 @@ class UserRepository
      * Update by id
      * @param string $id
      * @param array $data
-     * @return TModel|TValue|null
+     * @return User
      */
     public function update(string $id, array $data)
     {
         $model = $this->find($id);
+
+        if (!empty($model->email_verified_at)) {
+            unset($data['email_verified_at']);
+        }
 
         $model->update($data);
 
@@ -124,7 +128,7 @@ class UserRepository
      * Update by email
      * @param string $email
      * @param array $data
-     * @return TModel|TValue|null
+     * @return User
      */
     public function updateByEmail(string $email, array $data)
     {
