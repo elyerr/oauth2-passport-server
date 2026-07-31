@@ -39,7 +39,7 @@ class RoleRepository
 
     /**
      * Construct
-     * @param \Core\User\Model\Role $role
+     * @param Role $role
      */
     public function __construct(Role $role)
     {
@@ -48,7 +48,7 @@ class RoleRepository
 
     /**
      * Query
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Role>
+     * @return \Illuminate\Database\Eloquent\Builder<Role>
      */
     public function query()
     {
@@ -58,7 +58,7 @@ class RoleRepository
     /**
      * Create new resource
      * @param array $data
-     * @return Role|TModel|\Illuminate\Database\Eloquent\Model
+     * @return Role
      */
     public function create(array $data)
     {
@@ -79,7 +79,7 @@ class RoleRepository
      * Update specific resource
      * @param string $id
      * @param array $data
-     * @return Role|Role[]|TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Role
      */
     public function update(string $id, array $data)
     {
@@ -89,6 +89,4 @@ class RoleRepository
 
         return $model;
     }
-
-
 }

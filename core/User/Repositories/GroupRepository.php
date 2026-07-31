@@ -38,7 +38,7 @@ class GroupRepository
 
     /**
      * Construct
-     * @param \Core\User\Model\Group $group
+     * @param  Group $group
      */
     public function __construct(Group $group)
     {
@@ -47,7 +47,7 @@ class GroupRepository
 
     /**
      * Query
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Group>
+     * @return \Illuminate\Database\Eloquent\Builder<Group>
      */
     public function query()
     {
@@ -59,7 +59,7 @@ class GroupRepository
     /**
      * Create group
      * @param array $data
-     * @return Group|TModel|\Illuminate\Database\Eloquent\Model
+     * @return Group
      */
     public function create(array $data)
     {
@@ -72,7 +72,7 @@ class GroupRepository
      * Update 
      * @param string $id
      * @param array $data
-     * @return Group|Group[]|TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Group
      */
     public function update(string $id, array $data)
     {
@@ -86,7 +86,7 @@ class GroupRepository
     /**
      * Find specific resource
      * @param string $id
-     * @return Group|Group[]|TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Group
      */
     public function find(string $id)
     {
@@ -96,6 +96,7 @@ class GroupRepository
     /**
      * Find by slug
      * @param string $slug
+     * @return Group
      */
     public function findBySlug(string $slug)
     {

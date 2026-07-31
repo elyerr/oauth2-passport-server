@@ -35,20 +35,24 @@ class ScopeService
 
     /**
      * Scope repository
-     * @var 
+     * @var ScopeRepository
      */
     private $scopeRepository;
 
     /**
      * Construct
-     * @param \Core\User\Repositories\ScopeRepository $scopeRepository
+     * @param  ScopeRepository $scopeRepository
      */
     public function __construct(ScopeRepository $scopeRepository)
     {
         $this->scopeRepository = $scopeRepository;
     }
 
-
+    /**
+     * Search
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<\Core\User\Model\Scope>
+     */
     public function search(Request $request)
     {
         // Create query
@@ -66,7 +70,8 @@ class ScopeService
                     $query->where('group_id', $request->input('group_id'));
                 }
             );
-        }        
+        }
+
         // search by role name or slug
         if ($request->filled('role_name')) {
             $query->whereHas(
@@ -98,8 +103,8 @@ class ScopeService
 
     /**
      * Search for user
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<\Core\User\Model\Scope>
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<\Core\User\Model\Scope>
      */
     public function searchForUser(Request $request)
     {
@@ -144,7 +149,7 @@ class ScopeService
      * Search scope for service
      * @param string $scope_id
      * @param string $service_id
-     * @return TModel|TValue|null
+     * @return \Core\User\Model\Scope|\stdClass|null
      */
     public function searchScopeByService(string $scope_id, string $service_id)
     {

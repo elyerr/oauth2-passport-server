@@ -27,7 +27,6 @@ namespace Core\User\Services;
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-use App\Support\CacheKeys;
 use App\Support\CacheVersions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -39,6 +38,8 @@ class ServiceService
 {
     /**
      * Construct
+     * @param ServiceRepository $serviceRepository
+     * @param ScopeService $scopeService
      */
     public function __construct(
         protected ServiceRepository $serviceRepository,
@@ -47,9 +48,9 @@ class ServiceService
     }
 
     /**
-     * Search
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<\Core\User\Model\Service>
+     * Summary of search
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<\Core\User\Model\Service>
      */
     public function search(Request $request)
     {
@@ -93,8 +94,8 @@ class ServiceService
 
     /**
      * Search for user
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<\Core\User\Model\Service>
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<\Core\User\Model\Service>
      */
     public function searchForGuest(Request $request)
     {
@@ -119,9 +120,9 @@ class ServiceService
     }
 
     /**
-     * Find
+     * Find service
      * @param string $id
-     * @return \Core\User\Repositories\TModel|\Core\User\Repositories\TValue|null
+     * @return \Core\User\Model\Service
      */
     public function find(string $id)
     {
@@ -131,7 +132,7 @@ class ServiceService
     /**
      * Find by slug
      * @param string $slug
-     * @return \Core\User\Model\Service
+     * @return \Core\User\Model\Service|\stdClass|null
      */
     public function findBySlug(string $slug)
     {
@@ -141,8 +142,8 @@ class ServiceService
     /**
      * Create new resource
      * @param array $data
-     * @throws \Elyerr\ApiResponse\Exceptions\ReportError
-     * @return \Core\User\Model\Service|\Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Model
+     * @throws ReportError
+     * @return \Core\User\Model\Service
      */
     public function create(array $data)
     {
@@ -164,26 +165,22 @@ class ServiceService
      * Update service
      * @param string $id
      * @param array $data
-     * @return \Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return \Core\User\Model\Service
      */
     public function update(string $id, array $data)
     {
         $model = $this->serviceRepository->find($id);
-        throw_if(
-            empty($model),
-            new ReportError(
-                __("This resource can not be found"),
-                404
-            )
-        );
 
-        throw_if(
-            $model->system,
+        if (empty($model)) {
+            new ReportError(__("This resource can not be found"), 404);
+        }
+
+        if ((bool) $model->system) {
             new ReportError(
                 __("This is a system service and cannot be modified. If you believe this is an error, please contact the administrator."),
                 403
-            )
-        );
+            );
+        }
 
         return $this->serviceRepository->update($id, [
             'description' => $data['description'],
@@ -195,21 +192,19 @@ class ServiceService
     /**
      * Delete specific resource
      * @param string $id
-     * @return \Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return \Core\User\Model\Service
      */
     public function delete(string $id)
     {
         $model = $this->serviceRepository->find($id);
 
-        throw_if(
-            $model->system,
-            new ReportError(__("This action cannot be completed because this service is a system service and cannot be deleted."), 403)
-        );
+        if ((bool) $model->system) {
+            new ReportError(__("This action cannot be completed because this service is a system service and cannot be deleted."), 403);
+        }
 
-        throw_if(
-            count($model->scopes) > 0,
-            new ReportError(__("This action can't be done"), 403)
-        );
+        if (count($model->scopes) > 0) {
+            new ReportError(__("This action can't be done"), 403);
+        }
 
         $model->delete();
 
@@ -232,7 +227,6 @@ class ServiceService
      * Assign or update scopes for service
      * @param string $service_id
      * @param array $data
-     * @return TModel|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
      */
     public function assignOrUpdateScopes(string $service_id, array $data)
     {

@@ -48,8 +48,8 @@ class UserRepository
 
     /**
      * Construct
-     * @param \Core\User\Model\User $user
-     * @param \Core\User\Model\UserScope $userScope
+     * @param User $user
+     * @param UserScope $userScope
      */
     public function __construct(User $user, UserScope $userScope)
     {
@@ -59,7 +59,7 @@ class UserRepository
 
     /**
      * Query
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<User>
+     * @return \Illuminate\Database\Eloquent\Builder<User>
      */
     public function query()
     {

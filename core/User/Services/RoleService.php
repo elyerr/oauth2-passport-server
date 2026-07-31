@@ -41,8 +41,8 @@ class RoleService
     private $roleRepository;
 
     /**
-     * Construc
-     * @param \Core\User\Repositories\RoleRepository $roleRepository
+     * Construct
+     * @param RoleRepository $roleRepository
      */
     public function __construct(RoleRepository $roleRepository)
     {
@@ -50,9 +50,9 @@ class RoleService
     }
 
     /**
-     * Search data
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Role>
+     * Search
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<Role>
      */
     public function search(Request $request)
     {
@@ -67,7 +67,7 @@ class RoleService
             )
         );
 
-        $query->when($request->filled('system'), fn($q)  => $q->where('system', $request->system));
+        $query->when($request->filled('system'), fn($q) => $q->where('system', $request->system));
 
         $query->when(
             $request->filled('order_type'),
@@ -84,7 +84,7 @@ class RoleService
     /**
      * Create new resource
      * @param array $data
-     * @return JsonResponser
+     * @return Role
      */
     public function create(array $data)
     {
@@ -101,28 +101,25 @@ class RoleService
      * Update resource
      * @param string $id
      * @param array $data
-     * @return Role|Role[]|\Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Role
      */
     public function update(string $id, array $data)
     {
-
         $model = $this->roleRepository->find($id);
 
-        throw_if(
-            empty($model),
+        if (empty($model)) {
             new ReportError(
                 __("This resource can not be found"),
                 404
-            )
-        );
+            );
+        }
 
-        throw_if(
-            $model->system,
+        if ((bool) $model->system) {
             new ReportError(
                 __("This is a system role and cannot be modified. If you believe this is an error, please contact the administrator."),
                 403
-            )
-        );
+            );
+        }
 
         return $this->roleRepository->update($id, [
             'name' => $data['name'],
@@ -140,12 +137,16 @@ class RoleService
     {
         $model = $this->roleRepository->find($id);
 
-        throw_if($model->system, new ReportError(
-            __("This is a system role and cannot be deleted. If you believe this is an error, please contact the administrator."),
-            403
-        ));
+        if ((bool) $model->system) {
+            new ReportError(
+                __("This is a system role and cannot be deleted. If you believe this is an error, please contact the administrator."),
+                403
+            );
+        }
 
-        throw_if($model->scopes()->count() > 0, new ReportError(__("This action cannot be completed because this role is currently assigned to one or more scopes and cannot be deleted."), 403));
+        if ($model->scopes()->count() > 0) {
+            new ReportError(__("This action cannot be completed because this role is currently assigned to one or more scopes and cannot be deleted."), 403);
+        }
 
         $model->delete();
 

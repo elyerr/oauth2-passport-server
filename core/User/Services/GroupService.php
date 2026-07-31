@@ -48,8 +48,8 @@ class GroupService
 
     /**
      * Search resource
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Group>
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder<Group>
      */
     public function search(Request $request)
     {
@@ -85,6 +85,7 @@ class GroupService
     /**
      * Create group
      * @param array $data
+     * @return Group
      */
     public function create(array $data)
     {
@@ -99,7 +100,7 @@ class GroupService
     /**
      * Show detail
      * @param string $id
-     * @return \Core\User\Model\Group|\Core\User\Model\Group[]|\Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Group
      */
     public function detail(string $id)
     {
@@ -109,6 +110,7 @@ class GroupService
     /**
      * Find by slug
      * @param string $slug
+     * @return Group
      */
     public function findBySlug(string $slug)
     {
@@ -119,27 +121,22 @@ class GroupService
      * Update specific resource
      * @param string $id
      * @param array $data
-     * @return 
+     * @return Group
      */
     public function update(string $id, array $data)
     {
         $model = $this->groupRepository->find($id);
 
-        throw_if(
-            empty($model),
-            new ReportError(
-                __("This group can not be found"),
-                404
-            )
-        );
+        if (empty($model)) {
+            new ReportError(__("This group can not be found"), 404);
+        }
 
-        throw_if(
-            $model->system,
+        if ((bool) $model->system) {
             new ReportError(
                 __("This is a system group and cannot be modified. If you believe this is an error, please contact the administrator."),
                 403
-            )
-        );
+            );
+        }
 
         $model->description = $data["description"];
         $model->push();
@@ -150,19 +147,24 @@ class GroupService
     /**
      * Delete resoruce
      * @param string $id
-     * @return Group|Group[]|\Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return Group
      */
     public function delete(string $id)
     {
         $model = $this->groupRepository->find($id);
 
-        throw_if($model->system, new ReportError(
-            __("This is a system group and cannot be deleted. If you believe this is an error, please contact the administrator."),
-            403
-        ));
+        if ((bool) $model->system) {
+            new ReportError(
+                __("This is a system group and cannot be deleted. If you believe this is an error, please contact the administrator."),
+                403
+            );
+        }
 
         if ($model->services()->count() === 0 && $model->users()->count()) {
-            new ReportError(__("This action cannot be completed because this group is currently in use by another resource."), 403);
+            new ReportError(
+                __("This action cannot be completed because this group is currently in use by another resource."),
+                403
+            );
         }
 
         $model->forceDelete();

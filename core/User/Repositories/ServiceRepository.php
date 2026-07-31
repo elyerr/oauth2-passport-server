@@ -38,7 +38,7 @@ class ServiceRepository
 
     /**
      * Construct
-     * @param \Core\User\Model\Service $service
+     * @param  Service $service
      */
     public function __construct(Service $service)
     {
@@ -47,7 +47,7 @@ class ServiceRepository
 
     /**
      * Query
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Service>
+     * @return  \Illuminate\Database\Eloquent\Builder<Service>
      */
     public function query()
     {
@@ -63,7 +63,7 @@ class ServiceRepository
     /**
      * Create new resource
      * @param array $data
-     * @return Service|TModel|\Illuminate\Database\Eloquent\Model
+     * @return Service 
      */
     public function create(array $data)
     {
@@ -73,7 +73,7 @@ class ServiceRepository
     /**
      * Find resource
      * @param string $id
-     * @return TModel|TValue|null
+     * @return Service
      */
     public function find(string $id)
     {
@@ -84,7 +84,7 @@ class ServiceRepository
      * Update
      * @param string $id
      * @param array $data
-     * @return TModel|TValue|null
+     * @return Service
      */
     public function update(string $id, array $data)
     {

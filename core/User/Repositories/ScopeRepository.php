@@ -38,7 +38,7 @@ class ScopeRepository
 
     /**
      * Construct
-     * @param \Core\User\Model\Scope $scope
+     * @param  Scope $scope
      */
     public function __construct(Scope $scope)
     {
@@ -47,7 +47,7 @@ class ScopeRepository
 
     /**
      * Query
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<Scope>
+     * @return \Illuminate\Database\Eloquent\Builder<Scope>
      */
     public function query()
     {
@@ -63,7 +63,7 @@ class ScopeRepository
     /**
      * Search resource
      * @param string $id
-     * @return TModel|TValue|null
+     * @return Scope
      */
     public function find(string $id)
     {
