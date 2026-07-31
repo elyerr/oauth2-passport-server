@@ -38,6 +38,7 @@ use Elyerr\ApiResponse\Exceptions\ReportError;
 use Core\User\Notification\UserUpdatedEmail;
 use Core\User\Notification\UserCreatedAccount;
 use App\Support\CacheKeys;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -74,9 +75,9 @@ class UserService
     }
 
     /**
-     * Search data
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder<\Core\User\Model\User>
+     * Search
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function search(Request $request)
     {
@@ -105,7 +106,7 @@ class UserService
     /**
      * Create new user
      * @param array $data
-     * @return \Core\User\Model\User|\Core\User\Repositories\TModel|\Illuminate\Database\Eloquent\Model
+     * @return \Core\User\Model\User
      */
     public function create(array $data)
     {
@@ -155,9 +156,9 @@ class UserService
     }
 
     /**
-     * Search user by email
+     *  Search user by email
      * @param string $email
-     * @return \Core\User\Repositories\TModel|\Core\User\Repositories\TValue|null
+     * @return \Core\User\Model\User
      */
     public function findByEmail(string $email)
     {
@@ -184,7 +185,7 @@ class UserService
      * Update user
      * @param string $id
      * @param array $data
-     * @return \Core\User\Repositories\TModel|\Core\User\Repositories\TValue|null
+     * @return \Core\User\Model\User
      */
     public function update(string $id, array $data)
     {
@@ -220,7 +221,7 @@ class UserService
      * Update user email
      * @param string $id
      * @param string $email
-     * @return \Core\User\Repositories\TModel|\Core\User\Repositories\TValue|null
+     * @return \Core\User\Model\User
      */
     public function updateEmail(string $id, string $email)
     {
@@ -256,12 +257,11 @@ class UserService
     /**
      * Disable users  and destroy all sessions
      * @param string $id
-     * @throws \Elyerr\ApiResponse\Exceptions\ReportError
-     * @return \Core\User\Repositories\TModel|\Core\User\Repositories\TValue|null
+     * @throws ReportError
+     * @return \Core\User\Model\User
      */
     public function disable(string $id)
     {
-
         if (auth()->user()->id == $id) {
             throw new ReportError(__('Disabling your own account is not allowed.'), 403);
         }
@@ -309,8 +309,8 @@ class UserService
     /**
      * Enable disabled users
      * @param string $id
-     * @throws \Elyerr\ApiResponse\Exceptions\ReportError
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @throws ReportError
+     * @return \Core\User\Model\User
      */
     public function enable(string $id)
     {
@@ -466,7 +466,7 @@ class UserService
      * Revoke scopes to the user
      * @param string $user_id
      * @param string $id
-     * @throws \Elyerr\ApiResponse\Exceptions\ReportError
+     * @throws ReportError
      * @return void
      */
     public function revokeScopeForUser(string $user_id, string $id)
@@ -546,8 +546,9 @@ class UserService
 
     /**
      * Update personal password for the user
+     * @param string $user_id
      * @param array $data
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @return \Core\User\Model\User
      */
     public function updatePassword(string $user_id, array $data)
     {
@@ -560,8 +561,9 @@ class UserService
     }
 
     /**
-     *  Register new users (customers)
-     * @param array $data
+     * Register new users (customers)
+     * @param array $input
+     * @return User | RedirectResponse
      */
     public function registerCustomer(array $input)
     {
